@@ -1,4 +1,4 @@
-name: Android Mainline Release
+name: Android Side-by-Side Test Build
 
 on:
   push:
@@ -53,11 +53,11 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build Mainline Release
+      - name: Build Mainline RelWithDebInfo
         working-directory: src/android
         run: |
           chmod +x gradlew
-          ./gradlew assembleMainlineRelease \
+          ./gradlew assembleMainlineRelWithDebInfo \
             --no-daemon \
             --console=plain \
             --stacktrace
@@ -70,7 +70,7 @@ jobs:
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: eden-mainline-release-${{ github.sha }}
+          name: eden-mainline-relWithDebInfo-${{ github.sha }}
           path: src/android/**/build/outputs/apk/**/*.apk
           if-no-files-found: error
           retention-days: 14
